@@ -70,7 +70,7 @@ class App :
                       if ( app.lower( ) in proc.info['name'].lower( ) ) :
                            self.pids.append( proc.info['pid'] )
     
-              IO.stdout( "(*). Applicatin |" + self.app_name + "| start (wait for dbg) : done !" )
+              IO.stdout( "(*). Application |" + self.app_name + "| start (wait for dbg) : done !" )
               return True
 
           except Exception as e :
