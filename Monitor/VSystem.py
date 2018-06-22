@@ -195,7 +195,7 @@ class VSystem :
       def start_tc_server( self ) :
           
           try : 
-              gen_cmd = self.cwd + self.cfg['tc_generator'] + ' ' + self.cwd + self.cfg['tc_command']
+              gen_cmd = self.cfg['tc_tec'] + ' ' + self.cwd + self.cfg['tc_generator'] + ' ' + self.cwd + self.cfg['tc_command']
               tc_url = urlparse( self.cfg['tc_url']  ).netloc.split(':')[0]
               self.server = TCServer( tc_url, self.cfg['server_port'] , self.cwd + self.cfg['server_dir'], self.cfg['tc_file'] )
 

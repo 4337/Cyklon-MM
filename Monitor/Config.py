@@ -13,11 +13,16 @@ def parse_config_file( cfg_path ) :
 
     RetVal = { }
     RetVal['gdbhelp'] = ''
+    RetVal['tc_tec'] = ''
     Parser = SafeConfigParser( )
 	
     if ( len( Parser.read( cfg_path ) ) > 0) : 
             try :           
                 RetVal['gdbhelp'] = Parser.get( 'Debugger', 'dgbhelp' ) #(optional) full path 2 gdbhelp.dll
+            except :
+                   pass
+            try :
+                RetVal['tc_tec'] = Parser.get( 'Fuzzer', 'tec' )
             except :
                    pass
 	    try : 
