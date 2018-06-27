@@ -44,10 +44,10 @@ class VSystem :
 
                 IO.stdout( '(*). [' + strftime( "%d/%m/%Y %H:%M:%S", localtime( ) ) + '] System reboot !' )
 
-                if ( VEvent.no_freeze.wait( ) ) :
+                VEvent.no_freeze.wait( )
 
-                     if ( VEvent.reboot.is_set( ) == False ) :
-                          VEvent.reboot.set( )
+                if ( VEvent.reboot.is_set( ) == False ) :
+                     VEvent.reboot.set( )
 
             def run( self, time_o ) :
  
