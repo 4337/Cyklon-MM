@@ -37,10 +37,9 @@ if ( $args.count -ne 2 ) {
   
 }
 
-if( ![string]::IsNullOrEmpty($TMP) )  {
-    $RET_MSG = ( $RET_MSG + $TMP )
-    $LOG_FILE = ( $s_path + "\" + $LOG_NAME )
+$RET_MSG = ( $RET_MSG + $TMP )
+$LOG_FILE = ( $s_path + "\" + $LOG_NAME )
 	
-    Out-File -FilePath $LOG_FILE -Append -InputObject $RET_MSG
-}
+Out-File -FilePath $LOG_FILE -Append -InputObject $RET_MSG;
+
 
