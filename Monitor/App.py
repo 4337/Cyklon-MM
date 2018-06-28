@@ -26,6 +26,7 @@ class App :
           self.cmd_line = cmd #addr
           self.additional_apps = []
           self.loop_exit_result = False
+          self.app_file = file_name
           self.app_name = self.__set_app_name( file_name )
           pass
 
@@ -47,7 +48,7 @@ class App :
           if ( 'firefox' in name.lower( ) ) :
                 return 'Firefox'
           if ( 'edge' in name.lower( ) ) :
-                self.additional_apps.extend( ['browser_broker.exe','RuntimeBroker.exe','ApplicationFrameHost.exe'] )
+                self.additional_apps.extend( ['browser_broker.exe','RuntimeBroker.exe','ApplicationFrameHost.exe','MicrosoftEdgeCP.exe'] )
                 return 'Edge'
           if ( 'chrome' in name.lower( ) ) :
                 return 'Chrome'
@@ -67,7 +68,7 @@ class App :
               self.browser.get( 'about:blank' )
 
               for proc in psutil.process_iter( attrs = ['name','pid'] ) :
-                  if ( self.app_name.lower( ) in proc.info['name'].lower( ) ) :
+                  if ( self.app_file.lower( ) in proc.info['name'].lower( ) ) :
                        App.pids.append( proc.info['pid'] )
                   for app in self.additional_apps :
                       if ( app.lower( ) in proc.info['name'].lower( ) ) :
