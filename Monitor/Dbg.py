@@ -39,7 +39,9 @@ class DbgEventHandler( EventHandler ) :
           part = sig_obj.split(' ')
           md = hashlib.md5( )
           part[3] = part[3].replace( '+', '_' )
-          part[3] = part[3].replace( ':', '-' )
+          part[3] = part[3].replace( '::', '@' )
+          part[3] = part[3].replace( '<', '[' )
+          part[3] = part[3].replace( '>', ']' )
           md.update( part[0] + str(part[1]) + part[3] )
           out = md.hexdigest( ).upper( ) + '_' + part[3]
           return out
