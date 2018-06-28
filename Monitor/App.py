@@ -20,6 +20,7 @@ class App :
 
       def __init__( self, path, file_name, cmd ) :
    
+          self.opt = { }
           self.path = path
           self.browser = None
           self.cmd_line = cmd #addr
@@ -30,6 +31,7 @@ class App :
 
       def __del__( self ) :
 
+	  del self.opt;
           del App.pids[:]
           if ( self.browser != None ) :
                try :
@@ -49,7 +51,8 @@ class App :
                 return 'Edge'
           if ( 'chrome' in name.lower( ) ) :
                 return 'Chrome'
-          if ( 'iexplore' in name.lower( ) ) :
+          if ( 'iexplore' in name.lower( ) ) :  #Achtung : disable protected mode for all zone in IE, otherway selenium will throw exception
+		self.opt = { 'ignoreZoomSetting':True, 'ignoreProtectedModeSettings': True }  #chck: IPMS !
                 return 'Ie'
  
           return None
@@ -59,7 +62,7 @@ class App :
           try : 
 
               selenium = getattr( webdriver, self.app_name )
-              self.browser = selenium( )
+              self.browser = selenium( capabilities = self.opt )
               self.browser.set_page_load_timeout( App.hang_time_out )  
               self.browser.get( 'about:blank' )
 
