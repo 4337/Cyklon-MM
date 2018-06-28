@@ -27,7 +27,6 @@ class App :
           self.additional_apps = []
           self.loop_exit_result = False
           self.app_file = file_name
-          self.app_name = self.__set_app_name( file_name )
           pass
 
       def __del__( self ) :
@@ -41,7 +40,7 @@ class App :
                except :
                       pass 
 
-      def __set_app_name( self, app ) :
+      def __get_app_name( self, app ) :
 
           name = app.split( '.' )[0]
           
@@ -62,7 +61,7 @@ class App :
 
           try : 
 
-              selenium = getattr( webdriver, self.app_name )
+              selenium = getattr( webdriver, self.__get_app_name( self.app_file ) )
               self.browser = selenium( capabilities = self.opt )
               self.browser.set_page_load_timeout( App.hang_time_out )  
               self.browser.get( 'about:blank' )
@@ -74,7 +73,7 @@ class App :
                       if ( app.lower( ) in proc.info['name'].lower( ) ) :
                            self.pids.append( proc.info['pid'] )
     
-              IO.stdout( "(*). Application |" + self.app_name + "| start (wait for dbg) : done !" )
+              IO.stdout( "(*). Application |" + self.app_file + "| start (wait for dbg) : done !" )
               return True
 
           except Exception as e :
