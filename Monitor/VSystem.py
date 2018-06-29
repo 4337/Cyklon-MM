@@ -85,7 +85,7 @@ class VSystem :
               drv_path = self.cwd + self.cfg['drivers_dir'] + '\\' + file
               if ( os.path.abspath( drv_path ) not in (os.environ['PATH']) ) : 
                    if ( set == True ) :
-                        os.environ['PATH'] += os.path.abspath( drv_path ) + ';'
+                        os.environ['PATH'] += ';' + os.path.abspath( drv_path ) + ';'  #fixit!!
                    else :
                         return False
           

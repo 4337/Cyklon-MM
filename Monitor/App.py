@@ -46,12 +46,12 @@ class App :
           
           if ( 'firefox' in name.lower( ) ) :
                 return 'Firefox'
-          if ( 'edge' in name.lower( ) ) :
+          if ( 'edge' in name.lower( ) ) :  # ## MicrosoftEdge.exe
                 self.additional_apps.extend( ['browser_broker.exe','RuntimeBroker.exe','ApplicationFrameHost.exe','MicrosoftEdgeCP.exe'] )
                 return 'Edge'
           if ( 'chrome' in name.lower( ) ) :
                 return 'Chrome'
-          if ( 'iexplore' in name.lower( ) ) :  #Achtung : disable protected mode for all zone in IE, otherway selenium will throw exception
+          if ( 'iexplore' in name.lower( ) ) :  #Achtung : disable protected mode for all zones in IE, otherway selenium will throw exception
 		self.opt = { 'ignoreZoomSetting':True, 'ignoreProtectedModeSettings': True }  #chck: IPMS !
                 return 'Ie'
  
@@ -62,7 +62,7 @@ class App :
           try : 
 
               selenium = getattr( webdriver, self.__get_app_name( self.app_file ) )
-              self.browser = selenium( capabilities = self.opt )
+              self.browser = selenium( capabilities = self.opt )           #fixt: chrome chyba nieakceptuje capabilities !?!
               self.browser.set_page_load_timeout( App.hang_time_out )  
               self.browser.get( 'about:blank' )
 
