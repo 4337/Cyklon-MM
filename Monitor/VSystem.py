@@ -73,19 +73,20 @@ class VSystem :
        * @@private __chck_env : set PATH variables for selenium drivers 
        *************************************************************************
       '''
-      def __chck_env( self, set = True ) :
+      def __chck_env( self, set = True ) :  #FIX: nie dziala
 
-          files = os.listdir( self.cwd + self.cfg['drivers_dir']  )
+          sub_d = os.listdir( self.cwd + self.cfg['drivers_dir']  )
 
-          if ( len( files ) <= 0 ) : 
+          if ( len( sub_d ) <= 0 ) : 
                return False 
 
-          for file in files : 
+          for dir in sub_d : 
 
-              drv_path = self.cwd + self.cfg['drivers_dir'] + '\\' + file
+              drv_path = self.cwd + self.cfg['drivers_dir'] + '\\' + dir
               if ( os.path.abspath( drv_path ) not in (os.environ['PATH']) ) : 
                    if ( set == True ) :
-                        os.environ['PATH'] += ';' + os.path.abspath( drv_path ) + ';'  #fixit!!
+                        __env = os.getenv( 'PATH' ) + os.path.abspath( drv_path ) + ';'  #fixit!!
+                        os.system( 'SET PATH =' + __env )
                    else :
                         return False
           

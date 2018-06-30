@@ -11,6 +11,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
 class App :
 
@@ -20,7 +21,6 @@ class App :
 
       def __init__( self, path, file_name, cmd ) :
    
-          self.opt = { }
           self.path = path
           self.browser = None
           self.cmd_line = cmd #addr
@@ -31,7 +31,6 @@ class App :
 
       def __del__( self ) :
 
-	  del self.opt;
           del App.pids[:]
           if ( self.browser != None ) :
                try :
@@ -40,20 +39,24 @@ class App :
                except :
                       pass 
 
-      def __get_app_name( self, app ) :
+      def __get_drv( self, app ) :
 
           name = app.split( '.' )[0]
           
           if ( 'firefox' in name.lower( ) ) :
-                return 'Firefox'
+                caps = DesiredCapabilities.FIREFOX
+                return webdriver.Firefox( )
           if ( 'edge' in name.lower( ) ) :  # ## MicrosoftEdge.exe
                 self.additional_apps.extend( ['browser_broker.exe','RuntimeBroker.exe','ApplicationFrameHost.exe','MicrosoftEdgeCP.exe'] )
-                return 'Edge'
+                caps = DesiredCapabilities.EDGE
+                return webdriver.Edge( )
           if ( 'chrome' in name.lower( ) ) :
-                return 'Chrome'
+                caps = DesiredCapabilities.CHROME
+                return webdriver.Chrome( )
           if ( 'iexplore' in name.lower( ) ) :  #Achtung : disable protected mode for all zones in IE, otherway selenium will throw exception
-		self.opt = { 'ignoreZoomSetting':True, 'ignoreProtectedModeSettings': True }  #chck: IPMS !
-                return 'Ie'
+		caps = DesiredCapabilities.INTERNETEXPLORER
+                caps['ignoreZoomSetting'] = True
+                return webdriver.Ie( capabilities = caps )
  
           return None
 
@@ -61,8 +64,7 @@ class App :
 
           try : 
 
-              selenium = getattr( webdriver, self.__get_app_name( self.app_file ) )
-              self.browser = selenium( capabilities = self.opt )           #fixt: chrome chyba nieakceptuje capabilities !?!
+              self.browser = self.__get_drv( self.app_file )        
               self.browser.set_page_load_timeout( App.hang_time_out )  
               self.browser.get( 'about:blank' )
 
