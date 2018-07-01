@@ -4,8 +4,8 @@ $LOG_NAME = "at_kill_ps.log"
 
 $victims = @( "windbg", "python", "php", "perl", 
               "MicrosoftEdge", "ApplicationFrameHost", "MicrosoftEdgeCP", 
-			  "RuntimeBroker", "browser_broker",
-    		  "firefox",
+			  "RuntimeBroker", "browser_broker","MicrosoftWebDriver",
+    		  "firefox","iexplore","IEDriverServer","geckodriver",
               "chrome"
 			);
 					
@@ -25,6 +25,7 @@ if ( $args.count -ne 2 ) {
            try {
 		        $ErrorActionPreference = "Stop";
                 Stop-Process -Force -Name $proc;
+				Start-Sleep -Seconds 1
 	       } catch {
 		     $TMP = ( $TMP + $_.Exception.Message + "`r`n" );
 		   } finally {
