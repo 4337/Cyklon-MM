@@ -16,8 +16,8 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 class App :
 
       pids = []
-      hang_time_out = 15 #page hang 15 seconds
-      load_time_out = 10 #page load 10 seconds
+      hang_time_out = 25 #page hang x seconds
+      load_time_out = 20 #page load y seconds
 
       def __init__( self, path, file_name, cmd ) :
    

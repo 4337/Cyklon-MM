@@ -86,7 +86,7 @@ class VSystem :
               if ( os.path.abspath( drv_path ) not in (os.environ['PATH']) ) : 
                    if ( set == True ) :
                         __env = os.getenv( 'PATH' ) + os.path.abspath( drv_path ) + ';'  #fixit!!
-                        os.system( 'SETX PATH ' + __env + '/M' )
+                        os.popen( 'SETX PATH "' + __env + '"' ).read( )
                    else :
                         return False
           
@@ -104,12 +104,10 @@ class VSystem :
       def stop_drivers( self ) :
 
           drv_path = os.path.abspath( self.cwd + self.cfg['drivers_dir'] )
+
           for root, dirs, files in os.walk( drv_path ) :
-              pass
-          
-          for file in files :
               for proc in psutil.process_iter( attrs = ['name','pid'] ) :
-                  if ( file == proc.info['name'] ) :
+                  if ( str( files ) == "['" + proc.info['name'] + "']" ) :
                        try :
                            psutil.Process( int( proc.info['pid'] ) ).kill( )
                            IO.stdout('(*). VSystem stop driver (' + str( proc.info['pid'] ) +') : done !' )
