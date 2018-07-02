@@ -306,7 +306,18 @@ class VSystem :
           if ( (os.path.isfile( self.cwd + cfg['tc_generator']) != True ) or 
                (os.path.isdir( self.cwd + cfg['drivers_dir']) != True ) ) :
                 return False
-
+          else :
+               drv_s_dir = [ 'CHROME', 'IE32', 'IE64', 'FIREFOX', 'MSEDGE' ]
+               for subd in drv_s_dir :
+                   if ( os.path.isdir( self.cwd + cfg['drivers_dir'] + '\\' + subd ) != True ) :
+                        if ( install == True ) :
+                             try :
+                                 os.makedirs( self.cwd + cfg['drivers_dir'] + '\\' + subd ) 
+                             except :
+                                  return False
+                        else :
+                             return False
+                                 
           for dir in mk_dirs  :
               if ( os.path.isdir( self.cwd + cfg[dir] ) != True ) :
                    if ( install == True ) :
