@@ -1,4 +1,4 @@
-# encoding=utf8
+# -*- coding: utf-8 -*-
 
 from ConfigParser import SafeConfigParser
 
@@ -12,13 +12,13 @@ class ConfigException( Exception ) :
 def parse_config_file( cfg_path ) :
 
     RetVal = { }
-    RetVal['gdbhelp'] = ''
+    RetVal['dbghelp'] = ''
     RetVal['tc_tec'] = ''
     Parser = SafeConfigParser( )
 	
     if ( len( Parser.read( cfg_path ) ) > 0) : 
             try :           
-                RetVal['gdbhelp'] = Parser.get( 'Debugger', 'dgbhelp' ) #(optional) full path 2 gdbhelp.dll
+                RetVal['dbghelp'] = Parser.get( 'Debugger', 'dbghelp' ) #(optional) full path 2 dbghelp.dll
             except :
                    pass
             try :

@@ -1,4 +1,4 @@
-# encoding=utf8
+# -*- coding: utf-8 -*-
 
 import os
 import time
@@ -20,8 +20,8 @@ class DbgEventHandler( EventHandler ) :
                        '0xc0000409L', #
                        '0x80000001L', #
                        '0xC0000096L', #
-                       '0xC000001DL', # 
-                       '0xc00000fdL'  #stack overflow
+                       '0xC000001DL' #, # 
+                       #'0xc00000fdL'  #stack overflow
                      ]
 
       def __init__( self, cwd ) :
@@ -98,6 +98,8 @@ class DbgEventHandler( EventHandler ) :
 
           if ( ( str(exc_code) in DbgEventHandler.crash_course ) and ( event.is_first_chance( ) == True ) ) :  
 
+               VEvent.no_freeze.clear( )
+
                get_sym = True
 
                Proc = event.get_process( )
@@ -105,20 +107,18 @@ class DbgEventHandler( EventHandler ) :
            
                if ( len( syms ) >  0 ) :
                     diff = datetime.datetime.now() -  datetime.datetime.utcfromtimestamp( os.stat( Dbg.sym_dir + '\\' + syms[0]  ).st_ctime ) 
-                    if ( ( diff.seconds / 60 ) <= Dbg.sym_reload ) :  #TODO: chck ! co sie stanie bez wywolania get_symbols
+                    if ( ( diff.seconds / 60 ) <= Dbg.sym_reload ) :  #TODO: chck ! 
                            get_sym = False
                     else :
                          shutil.rmtree( Dbg.sym_dir ) #clear symbols
                   
                if ( get_sym == True ) :  
-                    
-                    VEvent.no_freeze.clear( )
 
                     winappdbg.Color.magenta( )             
                     IO.stdout( '     Exception occured | download symbols ! |' )
                     winappdbg.Color.default( )
                     try :
-                        if ( len( Proc.get_symbols( ) ) <= 0 ) :  #FIX : nie dziala w pewnych win10 x64 - distorm daje dupy 30/05/2018
+                        if ( len( Proc.get_symbols( ) ) <= 0 ) :  #FIX !!!!!!!!!!!!!!!!!!!!
                              IO.stdout( '(*). Dbg symbols loading error !' )
                     except Exception as e :
                                           print IO.stdout( '(!). Dbg symbols loading exception : ' + str(e) + ' !' )
@@ -160,9 +160,7 @@ class DbgEventHandler( EventHandler ) :
                winappdbg.Color.bk_default( )
                IO.stdout( '--------------------------------------------------------------' )
                winappdbg.Color.default( )
-  
-          if ( VEvent.no_freeze.is_set( ) == False ) :
-               
+
                VEvent.no_freeze.set( )
           
           if ( event.is_noncontinuable( ) == True ) :  #wyjatek nie kontynowalny - reboot
@@ -178,7 +176,7 @@ class Dbg :
       exception_info = None
       crsh_signature = None
       sym_dir = ''
-      sym_reload = 30  # todo: pobierz z konfigu "reboot_time" !!!!!
+      sym_reload = 30  
       
       @staticmethod
       def set_symbol_reload( timeo ) :
@@ -193,7 +191,7 @@ class Dbg :
           sym_urls = sym_urls.split( ';' )
 
           for url in sym_urls :
-              Dbg.symbols_path += 'SRV*' + str(sym_dir) + '*' + str(url) + ';' 
+              Dbg.symbols_path += 'cache*' + str(sym_dir) + ';srv*' + str(url) + ';' 
 
           IO.stdout( '(*). Dbg symbols : ' + Dbg.symbols_path )
 
@@ -294,4 +292,4 @@ class Dbg :
                 finally :
                         Dbg.dbg.cont( )
            
-          # all dbg session are end send signal to VSystem to reboot   
+          # ## 

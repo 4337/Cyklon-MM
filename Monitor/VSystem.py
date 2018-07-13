@@ -1,4 +1,4 @@
-# encoding=utf8
+# -*- coding: utf-8 -*-
 
 import os
 import time
@@ -70,10 +70,10 @@ class VSystem :
      
       '''
       /*************************************************************************
-       * @@private __chck_env : set PATH variables for selenium drivers 
+       * @@private __chck_env : set PATH variables 
        *************************************************************************
       '''
-      def __chck_env( self, set = True ) : 
+      def __chck_env( self, set = True ) :  #FIX FIX FIX !!!
 
           sub_d = os.listdir( self.cwd + self.cfg['drivers_dir']  )
 
@@ -85,7 +85,7 @@ class VSystem :
               drv_path = self.cwd + self.cfg['drivers_dir'] + '\\' + dir
               if ( os.path.abspath( drv_path ) not in (os.environ['PATH']) ) : 
                    if ( set == True ) :
-                        __env = os.getenv( 'PATH' ) + os.path.abspath( drv_path ) + ';'  #fixit!!
+                        __env = os.getenv( 'PATH' ) + os.path.abspath( drv_path ) + ';'
                         os.popen( 'SETX PATH "' + __env + '"' ).read( )
                    else :
                         return False
@@ -240,7 +240,7 @@ class VSystem :
           Dbg.set_symbol_path( sym_url, self.cwd + self.cfg['symbols_dir'] )
           Dbg.set_symbol_reload( self.cfg['reboot_time'] )
 
-          self.dbg = Dbg( os.path.abspath( self.cwd + self.cfg['symbols_dir'] ) , anty_dbg, VSystem.dbg_reboot_on_error, self.cfg['gdbhelp'] ) 
+          self.dbg = Dbg( os.path.abspath( self.cwd + self.cfg['symbols_dir'] ) , anty_dbg, VSystem.dbg_reboot_on_error, self.cfg['dbghelp'] ) 
           if ( self.dbg.attach_multi( App.pids ) == False ) : 
                return False
           try :
