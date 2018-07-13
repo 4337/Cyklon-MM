@@ -42,9 +42,9 @@ class VSystem :
                 VEvent.dbg_ready.wait( )
                 VEvent.reboot.wait( float(self.timeo) )
 
-                IO.stdout( '(*). [' + strftime( "%d/%m/%Y %H:%M:%S", localtime( ) ) + '] System reboot !' )
-
                 VEvent.no_freeze.wait( )
+
+                IO.stdout( '(*). [' + strftime( "%d/%m/%Y %H:%M:%S", localtime( ) ) + '] System reboot !' )
 
                 if ( VEvent.reboot.is_set( ) == False ) :
                      VEvent.reboot.set( )
