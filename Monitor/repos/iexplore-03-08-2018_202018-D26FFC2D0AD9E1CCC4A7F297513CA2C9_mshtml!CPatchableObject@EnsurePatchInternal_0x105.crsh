@@ -1,0 +1,89 @@
+Access violation (first chance) at mshtml!CPatchableObject::EnsurePatchInternal+0x105
+
+Security risk level: Exploitable
+  Stack pointer corruption is considered exploitable.
+
+Command line: "C:\Program Files (x86)\Internet Explorer\IEXPLORE.EXE" SCODEF:20456 CREDAT:17410 /prefetch:2
+
+Environment:
+  TMP=C:\Users\echo\AppData\Local\Temp
+  COMPUTERNAME=DESKTOP-PIIP4C5
+  USERDOMAIN=DESKTOP-PIIP4C5
+  PSMODULEPATH=%ProgramFiles%\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+  COMMONPROGRAMFILES=C:\Program Files\Common Files
+  PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
+  VBOX_MSI_INSTALL_PATH=C:\Program Files\Oracle\VirtualBox\
+  PROGRAMFILES=C:\Program Files
+  PROCESSOR_REVISION=3c03
+  PATH=C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;E:\Cyklon\Clear\drivers\geckodriver-v0.20.1-win64;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;E:\Cyklon\Clear\drivers\MSEdge;C:\WINDOWS\System32\OpenSSH\;E:\Cyklon\Clear\drivers\Firefox64;E:\Cyklon\drivers\;E:\Cyklon\drivers\IE32;E:\Cyklon\drivers\IE64;C:\Users\echo\AppData\Local\Microsoft\WindowsAppsE:\Cyklon\drivers\MSEDGEE:\Cyklon\drivers\MicrosoftWebDriver.exeE:\Cyklon\drivers\FIREFOXE:\Cyklon\drivers\chromedriver.exeE:\Cyklon\drivers\CHROME
+  SYSTEMROOT=C:\WINDOWS
+  PROGRAMFILES(X86)=C:\Program Files (x86)
+  DRIVERDATA=C:\Windows\System32\Drivers\DriverData
+  TEMP=C:\Users\echo\AppData\Local\Temp
+  COMMONPROGRAMFILES(X86)=C:\Program Files (x86)\Common Files
+  PROCESSOR_ARCHITECTURE=AMD64
+  ALLUSERSPROFILE=C:\ProgramData
+  LOCALAPPDATA=C:\Users\echo\AppData\Local
+  FPS_BROWSER_USER_PROFILE_STRING=Default
+  HOMEPATH=\Users\echo
+  USERDOMAIN_ROAMINGPROFILE=DESKTOP-PIIP4C5
+  PROGRAMW6432=C:\Program Files
+  USERNAME=echo
+  LOGONSERVER=\\DESKTOP-PIIP4C5
+  PROMPT=$P$G
+  COMSPEC=C:\WINDOWS\system32\cmd.exe
+  PROGRAMDATA=C:\ProgramData
+  _NT_SYMBOL_PATH=cache*E:\Cyklon\symbols;srv*http://msdl.microsoft.com/download/symbols;
+  ONEDRIVE=C:\Users\echo\OneDrive
+  PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+  WINDIR=C:\WINDOWS
+  HOMEDRIVE=C:
+  APPDATA=C:\Users\echo\AppData\Roaming
+  SYSTEMDRIVE=C:
+  NUMBER_OF_PROCESSORS=8
+  PROCESSOR_LEVEL=6
+  COMMONPROGRAMW6432=C:\Program Files\Common Files
+  OS=Windows_NT
+  PUBLIC=C:\Users\Public
+
+Registers:
+eax=6e00b480 ebx=051fce04 ecx=051fce00 edx=00000000 esi=00000000 edi=0000000b
+eip=6e00a4c5 esp=05a77490 ebp=05a774b4 iopl=0         no up ei pl zr na pe nc
+cs=0023  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00010246
+
+eax -> 8b ff 55 8b ec 56 8b 75 08 57 8b f9 83 7e 48 00  ..U..V.u.W...~H.
+ebp -> dc 74 a7 05 1d e6 07 6e dc 85 1e 05 e0 ce 1f 05  .t.....n........
+ebx -> 00 00 00 00 0a 00 00 00 48 00 04 8c 10 08 04 00  ........H.......
+ecx -> 70 9a c8 6d 00 00 00 00 0a 00 00 00 48 00 04 8c  p..m........H...
+
+Code disassembly:
+   6E00A4B5 |           40 | inc eax
+   6E00A4B6 |         2489 | and al, 0x89
+   6E00A4B8 |           45 | inc ebp
+   6E00A4B9 |           ec | in al, dx
+   6E00A4BA |   3d80b4006e | cmp eax, mshtml!cdispnodebase::fixuppatch
+   6E00A4BF | 0f85fb000000 | jnz mshtml!cpatchableobject::ensurepatchinternal+0x200
+ * 6E00A4C5 |     837e4800 | cmp dword [esi+0x48], 0x0
+   6E00A4C9 | 0f8509010000 | jnz mshtml!cpatchableobject::ensurepatchinternal+0x218
+   6E00A4CF |     806612bf | and byte [esi+0x12], 0xbf
+   6E00A4D3 |           80 | db 0x80
+   6E00A4D4 |           66 | db 0x66
+
+Stack trace:
+Frame    Origin
+05A774B4 51E85DC6E07E61D (0x51e85dc6e07e61d)
+
+Stack pointers:
+[rsp+0x08] -> 70 9a c8 6d 00 00 00 00 0b 00 00 00 ca 00 04 8c  p..m............
+[rsp+0x1c] -> 70 9a c8 6d 00 00 00 00 0a 00 00 00 48 00 04 8c  p..m........H...
+
+Stack dump:
+05A77490: e0 c7 1f 05 e0 ce 1f 05 30 e2 28 05 00 00 00 00  ........0.(.....
+05A774A0: 80 b4 00 6e 0b 00 00 00 00 ce 1f 05 00 ce 1f 05  ...n............
+05A774B0: 00 00 00 00 dc 74 a7 05 1d e6 07 6e dc 85 1e 05  .....t.....n....
+05A774C0: e0 ce 1f 05 90 cd 1f 05 48 9d c0 0d 90 cd 1f 05  ........H.......
+05A774D0: 30 e2 28 05 01 e0 07 6e 00 ce 1f 05 8c 75 a7 05  0.(....n.....u..
+05A774E0: c5 e1 07 6e 90 cd 1f 05 00 1b 20 05 68 8f 1e 05  ...n........h...
+05A774F0: 90 cd 1f 05 c0 ae 00 6e f1 ea 07 01 90 cd 1f 05  .......n........
+05A77500: 30 e2 28 05 01 1b 20 05 68 8f 1e 05 d4 94 27 05  0.(.....h.....'.
+
