@@ -52,10 +52,10 @@ class IO :
               if ( file_path != '' ) :
                    IO.file_handle[file_path].write( data )
               else : 
-                   print 'WTFGDUWBHGYGB ' + str(data)
-                   IO.file_handle[IO.cnt - 1].write( data )
+                   print 'WTFGDUWBHGYGB ' + str(data) + ' ' + str(IO.cnt) 
+                   IO.file_handle[IO.file_handle.keys()[IO.cnt - 1]].write( data )
           except Exception as e :
-                 print 'LOOKLKLOFKWOKF chodzi ' + str(e)
+                 pass
           finally :
                   IO.io_lock.release( )
 
