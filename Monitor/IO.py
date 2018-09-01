@@ -26,6 +26,8 @@ class IO :
                                pass
                else :
                     pass #Hjuston mamy problem : wyjatki w destruktorach sa w przypadku python-a ignorowane - podobno, nadal nie mam zadnej normalnej ksiazki do tego jezyka
+          
+           IO.cnt = 0
 
       @staticmethod
       def open_file( file_path, mode ) :
@@ -35,6 +37,7 @@ class IO :
               IO.io_lock.acquire( True )
               IO.file_handle[file_path] = open( file_path, mode )
               IO.file_handle[IO.cnt] = IO.file_handle[file_path]
+              print 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC o ' + str( IO.file_handle[file_path] ) + ' ' + str( IO.file_handle[IO.cnt] )
               ++IO.cnt
           except Exception as e :
                  ret = False
@@ -49,6 +52,7 @@ class IO :
               if ( file_path != '' ) :
                    IO.file_handle[file_path].write( data )
               else : 
+                   print 'WTFGDUWBHGYGB ' + str(data)
                    IO.file_handle[IO.cnt - 1].write( data )
           except Exception as e :
                  print 'LOOKLKLOFKWOKF chodzi ' + str(e)
