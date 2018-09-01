@@ -48,9 +48,12 @@ class App :
           if ( 'firefox' in name.lower( ) ) :
                 caps = DesiredCapabilities.FIREFOX
                 try : 
-                     drv = webdriver.Firefox( firefox_profile = temp_dir )  #CHCK !
+                     prv = webdriver.FirefoxProfile( )
+                     prv.set_preference( 'browser.download.folderList', 2)
+                     prv.set_preference( 'browser.download.dir', temp_dir + '\Default' )
+                     drv = webdriver.Firefox( firefox_profile = prv )  #CHCK !
                      return drv
-                except :
+                except Exception as e:
                        return None
           if ( 'edge' in name.lower( ) ) :  # ## MicrosoftEdge.exe
                 self.additional_apps.extend( ['browser_broker.exe','RuntimeBroker.exe','ApplicationFrameHost.exe','MicrosoftEdgeCP.exe'] )
@@ -70,7 +73,9 @@ class App :
 
           try : 
 
-              self.browser = self.__get_drv( self.app_file )        
+              self.browser = self.__get_drv( self.app_file )     
+              if ( self.browser == None ) :
+                   return False   
               self.browser.set_page_load_timeout( App.hang_time_out )  
               self.browser.get( 'about:blank' )
 
