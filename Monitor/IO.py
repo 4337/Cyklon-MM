@@ -20,7 +20,7 @@ class IO :
                     for i in range( 0, len(IO.file_handle) ) :
                         try :
                             if ( i % 2 == 0 ) :
-                                 IO.file_handle[i].close( )
+                                 IO.file_handle[IO.file_handle.keys()[i]].close( )
                             IO.file_handle.pop( IO.file_handle.keys()[ i ] )
                         except :
                                pass
