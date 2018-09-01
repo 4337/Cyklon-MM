@@ -108,7 +108,7 @@ class VSystem :
                              if ( __env[0].endswith( ';' ) ) :
                                   c__env = __env[0] + os.path.abspath( drv_path ) + ';'
                              else : 
-                                  c__env = __env[0] + ';'
+                                  c__env = __env[0] + ';' + os.path.abspath( drv_path )
                         
                              if ( os.path.abspath( drv_path ) not in __env[0] ) :
 
