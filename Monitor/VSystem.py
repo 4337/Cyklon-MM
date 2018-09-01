@@ -118,6 +118,9 @@ class VSystem :
                                            _winreg.SetValueEx( key_hnd[i], 'PATH', 0, _winreg.REG_EXPAND_SZ, c__env )
                                        except Exception as e :
                                                              ret = False
+
+                                  else : 
+                                       ret = False
  
                              if ( os.path.abspath( drv_path ) not in os.environ['PATH'] ) :
                                  
