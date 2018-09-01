@@ -48,7 +48,7 @@ class App :
           if ( 'firefox' in name.lower( ) ) :
                 caps = DesiredCapabilities.FIREFOX
                 try : 
-                     prv = webdriver.FirefoxProfile( )
+                     prv = webdriver.FirefoxProfile( temp_dir + '\Default' )
                      prv.set_preference( 'browser.download.folderList', 2)
                      prv.set_preference( 'browser.download.dir', temp_dir + '\Default' )
                      drv = webdriver.Firefox( firefox_profile = prv )  #CHCK !
