@@ -36,7 +36,7 @@ class IO :
           IO.io_lock.acquire( True )
           if ( file_path != '' ) :
                for o in IO.file_handle :
-                   if ( file_path in o['name'] ) :
+                   if ( file_path == o['name'] ) :
                         o['handle'].write( data )
           else : 
                 IO.file_handle[IO.cnt - 1]['handle'].write( data )
@@ -48,7 +48,7 @@ class IO :
           IO.io_lock.acquire( True )
           if ( file_path != '' ) :
                for o in IO.file_handle :
-                   if ( file_path in o['handle'] ) :
+                   if ( file_path == o['handle'] ) :
                         o['handle'].close( )
           else :   
                IO.file_handle[IO.cnt - 1].close( )
