@@ -104,23 +104,24 @@ class VSystem :
                                ret = False
                          
                         if ( len( __env ) > 0 ) :    
+                            
+                             if ( __env[0].endswith( ';' ) ) :
+                                  c__env = __env[0] + os.path.abspath( drv_path ) + ';'
+                             else : 
+                                  c__env = __env[0] + ';'
                         
                              if ( os.path.abspath( drv_path ) not in __env[0] ) :
 
                                   if ( set == True ) :
 
-                                       if ( __env[0].endswith( ';' ) ) :
-                                            c__env = __env[0] + os.path.abspath( drv_path ) + ';'
-                                       else : 
-                                            c__env = __env[0] + ';'
                                        try :
-                                            os.environ['PATH'] = c__env.encode( 'ascii', 'ignore' ) 
-                                            _winreg.SetValueEx( key_hnd[i], 'PATH', 0, _winreg.REG_EXPAND_SZ, c__env )
+                                           _winreg.SetValueEx( key_hnd[i], 'PATH', 0, _winreg.REG_EXPAND_SZ, c__env )
                                        except Exception as e :
                                                              ret = False
-                                   
-                             else :
-                                  ret = False
+ 
+                             if ( os.path.abspath( drv_path ) not in os.environ['PATH'] ) :
+                                 
+                                  os.environ['PATH'] = c__env.encode( 'ascii', 'ignore' ) 
 
                   key_hnd[i].Close( )
                  
