@@ -5,7 +5,7 @@ import threading
 class IO :
 
       cnt = 0
-      file_handle = [ ]
+      file_handle = { }
 
       io_lock = threading.Lock( )
 
@@ -23,7 +23,8 @@ class IO :
           ret = True
           try : 
               IO.io_lock.acquire( True )
-              IO.file_handle.append( { 'name' : open( file_path, mode ), 'handle' : file_path } )
+              IO.file_handle[file_path] = open( file_path, mode )
+              IO.file_handle[IO.cnt] = IO.file_handle[file_path]
               ++IO.cnt
           except Exception as e :
                  ret = False
@@ -35,11 +36,9 @@ class IO :
       def write_file( data, file_path = '' ) :
           IO.io_lock.acquire( True )
           if ( file_path != '' ) :
-               for o in IO.file_handle :
-                   if ( file_path == o['name'] ) :
-                        o['handle'].write( data )
+               IO.file_handle[file_path].write( data )
           else : 
-                IO.file_handle[IO.cnt - 1]['handle'].write( data )
+                IO.file_handle[IO.cnt - 1].write( data )
           IO.io_lock.release( )
 
       @staticmethod
@@ -47,13 +46,12 @@ class IO :
           
           IO.io_lock.acquire( True )
           if ( file_path != '' ) :
-               for o in IO.file_handle :
-                   if ( file_path == o['handle'] ) :
-                        o['handle'].close( )
+               IO.file_handle[file_path].close( )
           else :   
                IO.file_handle[IO.cnt - 1].close( )
           
           IO.file_handle.pop( IO.cnt - 1 )
+          IO.file_handle.pop( IO.file_handle.keys()[ IO.cnt - 2 ] )
           --IO.cnt
           IO.io_lock.release( )
 
