@@ -35,8 +35,8 @@ class IO :
           ret = True
           try : 
               IO.io_lock.acquire( True )
-              IO.file_handle[file_path] = open( file_path, mode )
-              IO.file_handle[IO.cnt] = IO.file_handle[file_path]
+              IO.file_handle[file_path] = open( file_path, mode ) #0 -> 'key'
+              IO.file_handle[IO.cnt] = IO.file_handle[file_path]  #1 -> 0, 2 -> 'key1', 3 -> 1
               print 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC o ' + str( IO.file_handle[file_path] ) + ' ' + str( IO.file_handle[IO.cnt] )
               ++IO.cnt
           except Exception as e :
@@ -52,8 +52,8 @@ class IO :
               if ( file_path != '' ) :
                    IO.file_handle[file_path].write( data )
               else : 
-                   print 'WTFGDUWBHGYGB ' + str(data) + ' ' + str(IO.cnt) 
-                   IO.file_handle[IO.file_handle.keys()[IO.cnt - 1]].write( data )
+                   print 'WTFGDUWBHGYGB ' + str(data) + ' ' + str(IO.cnt) + ' lo jezu pary sobie zastosuj cybale ' + str(IO.file_handle[ IO.file_handle.keys()[IO.cnt - 1] ])
+                   IO.file_handle[ IO.file_handle.keys()[IO.cnt - 1] ].write( data )
           except Exception as e :
                  pass
           finally :
