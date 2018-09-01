@@ -4,6 +4,7 @@ import os
 import time
 import shutil
 import ctypes
+import _winreg
 import VEvent
 import threading 
 import winappdbg
@@ -73,24 +74,57 @@ class VSystem :
        * @@private __chck_env : set PATH variables 
        *************************************************************************
       '''
-      def __chck_env( self, set = True ) :  #FIX FIX FIX !!!
+      def __chck_env( self, set = True ) :  
 
+	  __env = ''
+          ret = True
           sub_d = os.listdir( self.cwd + self.cfg['drivers_dir']  )
 
           if ( len( sub_d ) <= 0 ) : 
                return False 
 
+          key_hnd = ['',''];
+          keys = [ { 'key': _winreg.HKEY_LOCAL_MACHINE, 's_key': 'SYSTEM\CurrentControlSet\Control\Session Manager\Environment' },
+                   { 'key': _winreg.HKEY_CURRENT_USER, 's_key': 'Environment' } ]
+
           for dir in sub_d : 
 
               drv_path = self.cwd + self.cfg['drivers_dir'] + '\\' + dir
-              if ( os.path.abspath( drv_path ) not in (os.environ['PATH']) ) : 
-                   if ( set == True ) :
-                        __env = os.getenv( 'PATH' ) + os.path.abspath( drv_path ) + ';'
-                        os.popen( 'SETX PATH "' + __env + '"' ).read( )
-                   else :
-                        return False
-          
-          return True
+
+              for i in range( 2 ) :
+
+		  key_hnd[i] =  _winreg.CreateKey( keys[i]['key'], keys[i]['s_key'] ) 
+		  
+                  if ( not key_hnd[i] ) :
+                       ret = False
+                  else :
+                        try : 
+                             __env = _winreg.QueryValueEx( key_hnd[i], 'PATH' )
+                        except :
+                               ret = False
+                         
+                        if ( len( __env ) > 0 ) :    
+                        
+                             if ( os.path.abspath( drv_path ) not in __env[0] ) :
+
+                                  if ( set == True ) :
+
+                                       if ( __env[0].endswith( ';' ) ) :
+                                            c__env = __env[0] + os.path.abspath( drv_path ) + ';'
+                                       else : 
+                                            c__env = __env[0] + ';'
+                                       try :
+                                            os.environ['PATH'] = c__env.encode( 'ascii', 'ignore' ) 
+                                            _winreg.SetValueEx( key_hnd[i], 'PATH', 0, _winreg.REG_EXPAND_SZ, c__env )
+                                       except Exception as e :
+                                                             ret = False
+                   
+                  key_hnd[i].Close( )
+                 
+          if ( ret != False ) :
+               ctypes.windll.user32.SendMessageA( 0xFFFF, 0x1A, 0, 'Environment' )
+                   
+          return ret
  
       '''
       ### end __chck_env ########################################################
@@ -307,7 +341,7 @@ class VSystem :
                (os.path.isdir( self.cwd + cfg['drivers_dir']) != True ) ) :
                 return False
           else :
-               drv_s_dir = [ 'CHROME', 'IE32', 'IE64', 'FIREFOX', 'MSEDGE' ]
+               drv_s_dir = [ 'CHROME', 'IE32', 'IE64', 'FF32', 'FF64', 'MSEDGE' ]
                for subd in drv_s_dir :
                    if ( os.path.isdir( self.cwd + cfg['drivers_dir'] + '\\' + subd ) != True ) :
                         if ( install == True ) :
@@ -346,7 +380,7 @@ class VSystem :
 
           self.cfg['tc_url'] += ':' + str( self.cfg['server_port'] ) + '/' + self.cfg['tc_file']
 
-          if ( self.__chck_env( install ) == False ) :   #todo : test it !!!
+          if ( self.__chck_env( install ) == False ) :   #todo 
                return False
 
           return True
