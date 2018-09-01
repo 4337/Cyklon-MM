@@ -19,10 +19,10 @@ class IO :
                if ( len(IO.file_handle) > 0 ):
                     for i in range( 0, len(IO.file_handle) ) :
                         try :
-                            if ( i % 2 == 0 ) :
-                                 IO.file_handle[IO.file_handle.keys()[i]].close( )
+                            IO.file_handle[IO.file_handle.keys()[i]].close( )
                             IO.file_handle.pop( IO.file_handle.keys()[ i ] )
-                        except :
+                        except Exception as e :
+                               print 'CKEFIKFIEKF ' + str(e)
                                pass
                else :
                     pass #Hjuston mamy problem : wyjatki w destruktorach sa w przypadku python-a ignorowane - podobno, nadal nie mam zadnej normalnej ksiazki do tego jezyka
@@ -36,8 +36,6 @@ class IO :
           try : 
               IO.io_lock.acquire( True )
               IO.file_handle[file_path] = open( file_path, mode ) #0 -> 'key'
-              IO.file_handle[IO.cnt] = IO.file_handle[file_path]  #1 -> 0, 2 -> 'key1', 3 -> 1
-              print 'CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC o ' + str( IO.file_handle[file_path] ) + ' ' + str( IO.file_handle[IO.cnt] )
               ++IO.cnt
           except Exception as e :
                  ret = False
@@ -52,7 +50,7 @@ class IO :
               if ( file_path != '' ) :
                    IO.file_handle[file_path].write( data )
               else : 
-                   print 'WTFGDUWBHGYGB ' + str(data) + ' ' + str(IO.cnt) + ' lo jezu pary sobie zastosuj cybale ' + str(IO.file_handle[ IO.file_handle.keys()[IO.cnt - 1] ])
+                   print 'WTFGDUWBHGYGB ' + str(IO.cnt) + '  ' + str(IO.file_handle[ IO.file_handle.keys()[IO.cnt - 1] ])
                    IO.file_handle[ IO.file_handle.keys()[IO.cnt - 1] ].write( data )
           except Exception as e :
                  pass
@@ -66,11 +64,10 @@ class IO :
               IO.io_lock.acquire( True )
               if ( file_path != '' ) :
                    IO.file_handle[file_path].close( )
+                   IO.file_handle.pop( file_path )
               else :   
-                   IO.file_handle[IO.cnt - 1].close( )
-          
-              IO.file_handle.pop( IO.cnt - 1 )
-              IO.file_handle.pop( IO.file_handle.keys()[ IO.cnt - 2 ] )
+                   IO.file_handle[IO.file_handle.keys()[IO.cnt - 1]].close( )
+                   IO.file_handle.pop( IO.file_handle.keys()[IO.cnt - 1] )
               --IO.cnt
           finally :
                   IO.io_lock.release( )
