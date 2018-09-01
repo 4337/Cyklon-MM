@@ -4,6 +4,7 @@ import psutil
 import threading 
 import VEvent 
 import time 
+import tempfile
 
 from IO import *
 from VEvent import *
@@ -41,11 +42,16 @@ class App :
 
       def __get_drv( self, app ) :
 
+          temp_dir = tempfile.gettempdir( )
           name = app.split( '.' )[0]
           
           if ( 'firefox' in name.lower( ) ) :
                 caps = DesiredCapabilities.FIREFOX
-                return webdriver.Firefox( firefox_profile = 'Default' )        #CHCK !
+                try : 
+                     drv = webdriver.Firefox( firefox_profile = temp_dir )  #CHCK !
+                     return drv
+                except :
+                       return None
           if ( 'edge' in name.lower( ) ) :  # ## MicrosoftEdge.exe
                 self.additional_apps.extend( ['browser_broker.exe','RuntimeBroker.exe','ApplicationFrameHost.exe','MicrosoftEdgeCP.exe'] )
                 caps = DesiredCapabilities.EDGE
