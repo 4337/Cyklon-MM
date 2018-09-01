@@ -45,7 +45,7 @@ class App :
           
           if ( 'firefox' in name.lower( ) ) :
                 caps = DesiredCapabilities.FIREFOX
-                return webdriver.Firefox( )
+                return webdriver.Firefox( firefox_profile = 'Default' )        #CHCK !
           if ( 'edge' in name.lower( ) ) :  # ## MicrosoftEdge.exe
                 self.additional_apps.extend( ['browser_broker.exe','RuntimeBroker.exe','ApplicationFrameHost.exe','MicrosoftEdgeCP.exe'] )
                 caps = DesiredCapabilities.EDGE
