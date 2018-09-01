@@ -2,6 +2,24 @@
 
 import os
 import re
+import _winreg
+
+def get_proces_gflag( proc_name ) :
+ 
+    ret = None;
+
+    key = _winreg.CreateKey( _winreg.HKEY_LOCAL_MACHINE, 'SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\\' + proc_name )
+    if ( not key ) :
+         return None
+    
+    try :
+        ret = _winreg.QueryValueEx( key, 'GlobalFlag' )[0]
+    except :
+           ret = None
+    
+    key.Close( )
+
+    return ret
 
 def chck_port_range( port ) :
     

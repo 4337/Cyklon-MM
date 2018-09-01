@@ -11,6 +11,7 @@ import datetime
 
 from IO import *
 from VEvent import *
+from Utils import *
 from winappdbg import *
 from time import localtime, strftime
 
@@ -254,6 +255,12 @@ class Dbg :
                   if ( psutil.pid_exists( pid ) == True ):
                        proc = Dbg.dbg.attach( pid )
                        IO.stdout( '(*). Dbg attach to ' + proc.get_filename( ) + ' | PID ' + str( pid ) + ' | done !' )
+                       dir, file_name = os.path.split( proc.get_filename( ) )
+                       g_flag = get_proces_gflag( file_name )
+                       if ( g_flag != None ) :
+                            winappdbg.Color.bk_green( ) 
+                            IO.stdout( '(*). Dbg - process (pid: ' + str(pid) + ') GFlag value : ' + str(g_flag) )
+                            winappdbg.Color.bk_default( )
                        try :
                            proc.resume( )
                        except Exception as e:  #what now
