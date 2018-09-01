@@ -1,0 +1,2 @@
+powershell -executionpolicy bypass -File E:\Cyklon\at_kill.ps1  
+start "C:\Python27amd64\python.exe" "E:\Cyklon\Main.py" -browser "C:\Program Files\Mozilla Firefox\firefox.exe" -port 80 -symbols http://msdl.microsoft.com/download/symbols;https://symbols.mozilla.org/

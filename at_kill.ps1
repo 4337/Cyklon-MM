@@ -17,7 +17,7 @@ $RET_MSG = "*****************************`r`n"
 $RET_MSG = $RET_MSG + (Get-Date).ToString( ) + "`r`n"
 
 Write-Output $args.count
-if ( $args.count -ne 2 ) {
+if ( $args.count -lt 0 ) {  #Nie wazne
      $TMP = $TMP + "Invalid command line argumments `r`n"
 } else {
 					
@@ -25,16 +25,15 @@ if ( $args.count -ne 2 ) {
            try {
 		        $ErrorActionPreference = "Stop";
                 Stop-Process -Force -Name $proc;
-				Start-Sleep -Seconds 1
 	       } catch {
 		     $TMP = ( $TMP + $_.Exception.Message + "`r`n" );
 		   } finally {
 		     $ErrorActionPreference = "Continue";
 		   }
   }
-  #run 
-  $in_arg = $args[1..$args.length]
-  Start-Process -FilePath $args[0] -ArgumentList $in_arg
+ # run 
+ # $in_arg = $args[1..$args.length]
+ # Start-Process -FilePath $args[0] -ArgumentList $in_arg
   
 }
 
