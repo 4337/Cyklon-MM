@@ -264,6 +264,7 @@ class Dbg :
                      if ( self.reboot_on_error == True ) :
                           ret = False
                           VEvent.reboot.set( )
+                          pass
                     # return False #TODO: FIX return i reboot tu niedziala, poza tym return z main jest zepsuty tez cza naprawic
 
           return ret
