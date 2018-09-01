@@ -91,7 +91,7 @@ class VSystem :
 
               drv_path = self.cwd + self.cfg['drivers_dir'] + '\\' + dir
 
-              for i in range( 2 ) :
+              for i in range( 2 ) :            #optymalniej byloby gdby ta byla nadrzedna wzgledem dir in sub_d, ale chooj niechce mi sie ;/
 
 		  key_hnd[i] =  _winreg.CreateKey( keys[i]['key'], keys[i]['s_key'] ) 
 		  
