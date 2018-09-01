@@ -15,7 +15,17 @@ class IO :
 
       def __del__( self ) :
 
-          pass
+          if ( IO.cnt > 0 ) :
+               if ( len(IO.file_handle) > 0 ):
+                    for i in range( 0, len(IO.file_handle) ) :
+                        try :
+                            if ( i % 2 == 0 ) :
+                                 IO.file_handle[i].close( )
+                            IO.file_handle.pop( IO.file_handle.keys()[ i ] )
+                        except :
+                               pass
+               else :
+                    pass #wyjatki w destruktorach sa w przypadku python-a ignorowane - podobno, nadal nie mam zadnej normalnej ksiazki do tego jezyka
 
       @staticmethod
       def open_file( file_path, mode ) :
@@ -40,6 +50,8 @@ class IO :
                    IO.file_handle[file_path].write( data )
               else : 
                    IO.file_handle[IO.cnt - 1].write( data )
+          except Exception as e :
+                 print 'LOOKLKLOFKWOKF chodzi ' + str(e)
           finally :
                   IO.io_lock.release( )
 
