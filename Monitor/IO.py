@@ -25,7 +25,7 @@ class IO :
                         except :
                                pass
                else :
-                    pass #wyjatki w destruktorach sa w przypadku python-a ignorowane - podobno, nadal nie mam zadnej normalnej ksiazki do tego jezyka
+                    pass #Hjuston mamy problem : wyjatki w destruktorach sa w przypadku python-a ignorowane - podobno, nadal nie mam zadnej normalnej ksiazki do tego jezyka
 
       @staticmethod
       def open_file( file_path, mode ) :
