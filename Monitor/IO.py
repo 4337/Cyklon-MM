@@ -22,7 +22,6 @@ class IO :
                             IO.file_handle[IO.file_handle.keys()[i]].close( )
                             IO.file_handle.pop( IO.file_handle.keys()[ i ] )
                         except Exception as e :
-                               print 'CKEFIKFIEKF ' + str(e)
                                pass
                else :
                     pass #Hjuston mamy problem : wyjatki w destruktorach sa w przypadku python-a ignorowane - podobno, nadal nie mam zadnej normalnej ksiazki do tego jezyka
@@ -50,7 +49,6 @@ class IO :
               if ( file_path != '' ) :
                    IO.file_handle[file_path].write( data )
               else : 
-                   print 'WTFGDUWBHGYGB ' + str(IO.cnt) + '  ' + str(IO.file_handle[ IO.file_handle.keys()[IO.cnt - 1] ])
                    IO.file_handle[ IO.file_handle.keys()[IO.cnt - 1] ].write( data )
           except Exception as e :
                  pass
