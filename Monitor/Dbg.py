@@ -261,6 +261,10 @@ class Dbg :
                             winappdbg.Color.bk_green( ) 
                             IO.stdout( '(*). Dbg - process (pid: ' + str(pid) + ') GFlag value : ' + str(g_flag) )
                             winappdbg.Color.bk_default( )
+                       else :
+                            winappdbg.Color.bk_red( ) 
+                            IO.stdout( '(*). Dbg - process (pid: ' + str(pid) + ') GFlag value : undefined' )
+                            winappdbg.Color.bk_default( )
                        try :
                            proc.resume( )
                        except Exception as e:  #what now
