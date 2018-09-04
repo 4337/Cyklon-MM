@@ -15,16 +15,18 @@ class IO :
 
       def __del__( self ) :
 
-          if ( IO.cnt > 0 ) :
-               if ( len(IO.file_handle) > 0 ):
-                    for i in range( 0, len(IO.file_handle) ) :
+          t_cnt = len(IO.file_handle)
+
+          if ( IO.cnt == t_cnt  ) :
+               if ( t_cnt > 0 ):
+                    for i in range( 0, t_cnt ) :
                         try :
                             IO.file_handle[IO.file_handle.keys()[i]].close( )
                             IO.file_handle.pop( IO.file_handle.keys()[ i ] )
                         except Exception as e :
                                pass
-               else :
-                    pass #Hjuston mamy problem : wyjatki w destruktorach sa w przypadku python-a ignorowane - podobno, nadal nie mam zadnej normalnej ksiazki do tego jezyka
+          else :
+                pass #Hjuston mamy problem : wyjatki w destruktorach sa w przypadku python-a ignorowane - podobno, nadal nie mam zadnej normalnej ksiazki do tego jezyka
           
           IO.cnt = 0
 
