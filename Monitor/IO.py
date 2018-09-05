@@ -19,6 +19,7 @@ class IO :
 
           if ( IO.cnt == t_cnt  ) :
                if ( t_cnt > 0 ):
+                    IO.cnt = 0
                     for i in range( 0, t_cnt ) :
                         try :
                             IO.file_handle[IO.file_handle.keys()[i]].close( )
@@ -27,8 +28,6 @@ class IO :
                                pass
           else :
                 pass #Hjuston mamy problem : wyjatki w destruktorach sa w przypadku python-a ignorowane - podobno, nadal nie mam zadnej normalnej ksiazki do tego jezyka
-          
-          IO.cnt = 0
 
       @staticmethod
       def open_file( file_path, mode ) :
