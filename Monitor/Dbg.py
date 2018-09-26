@@ -219,7 +219,7 @@ class Dbg :
                for trg in Dbg.targets :
                    if ( trg != None ) :
                         pid = trg.get_pid( )
-                        if ( ( psutil.pid_exists( pid ) == True ) and ( os.path.basename( trg.get_filename( ) ) == psutil.Process( pid ).name( ) ) ) :  #chck! 26/09
+                        if ( ( psutil.pid_exists( pid ) == True ) and ( trg.get_filename( ) == psutil.Process(pid) + '\\' + psutil.Process( pid ).name( ) ) ) :  #chck! 26/09
                              try : 
                                  Dbg.dbg.detach( pid )
                              finally :
