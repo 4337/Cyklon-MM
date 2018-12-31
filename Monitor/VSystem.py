@@ -193,12 +193,13 @@ class VSystem :
        *                        run realoading thread 
        *******************************************************************************************/
       '''
-      def stop_app( self ) :
+      def stop_app( self, silent = False ) :
    
           if ( VEvent.reboot.is_set( ) == False ) :
                VEvent.reboot.set( )
 
-          IO.stdout( '(*). App stop' )
+          if ( silent == False ) :
+               IO.stdout( '(*). App stop' )
 
           self.stop_drivers( )
           del self.app
@@ -250,9 +251,10 @@ class VSystem :
           except Exception as e:
                  return False
 
-      def stop_tc_server( self ) :
+      def stop_tc_server( self, silent = False ) :
     
-          IO.stdout( '(*). TC Server stop' )
+          if ( silent == False ) :
+               IO.stdout( '(*). TC Server stop' )
 
           if ( VEvent.reboot.is_set( ) == False ) :
                VEvent.reboot.set( )
@@ -290,9 +292,11 @@ class VSystem :
           except Exception as e:
                  return False
 
-      def dbg_stop( self ) :
+      def dbg_stop( self, silent = False ) :
           
-          IO.stdout( '(*). Dbg stop ' )
+          if ( silent == False ) :
+               IO.stdout( '(*). Dbg stop ' )
+
           if ( self.dbg != None ) :
                self.dbg.stop( )
                del self.dbg
@@ -348,7 +352,7 @@ class VSystem :
                (os.path.isdir( self.cwd + cfg['drivers_dir']) != True ) ) :
                 return False
           else :
-               drv_s_dir = [ 'CHROME', 'IE32', 'IE64', 'FF32', 'FF64', 'MSEDGE' ]
+               drv_s_dir = [ 'CHROME', 'IE32', 'IE64', 'FF32', 'FF64', 'MSEDGE', 'OPERA32', 'OPERA64' ]
                for subd in drv_s_dir :
                    if ( os.path.isdir( self.cwd + cfg['drivers_dir'] + '\\' + subd ) != True ) :
                         if ( install == True ) :

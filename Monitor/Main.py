@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import os
 import sys
 import time
 import shutil
-import traceback
 
 from IO import *
 from Config import *
@@ -69,18 +69,20 @@ def main( ) :
                      VSys.stop_tc_server( )
                      VSys.stop_app( )   
 
-                            
+                         
 
     except Exception as e :
 
            print "[!]. Global exception : " + str( e )
-           traceback.print_tb(exc_traceback, limit=1, file=sys.stdout)
 
     finally :
+            VSys.dbg_stop( True )
+            VSys.stop_tc_server( True )
+            VSys.stop_app( True )
             del VSys
             return
 
 if ( __name__ == "__main__" ) :
 
-     main( )
-     sys.exit( 0 )
+     main( ) 
+     os._exit( 0 )

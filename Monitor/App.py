@@ -3,7 +3,9 @@
 import psutil
 import threading 
 import VEvent 
+import shutil
 import time 
+import os
 import tempfile
 
 from IO import *
@@ -44,16 +46,23 @@ class App :
 
           temp_dir = tempfile.gettempdir( )
           name = app.split( '.' )[0]
-          
-          if ( 'firefox' in name.lower( ) ) :
-                caps = DesiredCapabilities.FIREFOX
+
+          if ( os.path.isdir( temp_dir + '\\ffirefox' ) ) :
+               shutil.rmtree( temp_dir + '\\ffirefox' )
+          else :
+                os.makedirs( temp_dir + '\\ffirefox' )
+
+          if ( 'firefox' in name.lower( ) ) : #niedziala
+                caps = None #DesiredCapabilities.FIREFOX
                 try : 
-                     prv = webdriver.FirefoxProfile( temp_dir + '\Default' )
-                     prv.set_preference( 'browser.download.folderList', 2)
-                     prv.set_preference( 'browser.download.dir', temp_dir + '\Default' )
-                     drv = webdriver.Firefox( firefox_profile = prv )  #CHCK !
+                     #prv = webdriver.FirefoxProfile( ) # temp_dir + '\\ffirefox' )
+                    # print str(prv.profile_dir)
+                     #prv.set_preference( 'browser.download.folderList', 2)
+                     #prv.set_preference( 'browser.download.dir', temp_dir + '\\ffirefox\\di'  )
+                     drv = webdriver.Firefox(  ) #firefox_profile = prv )  #CHCK !
                      return drv
                 except Exception as e:
+                       print 'EOIWKORIOE '+str(e)
                        return None
           if ( 'edge' in name.lower( ) ) :  # ## MicrosoftEdge.exe
                 self.additional_apps.extend( ['browser_broker.exe','RuntimeBroker.exe','ApplicationFrameHost.exe','MicrosoftEdgeCP.exe'] )
@@ -66,6 +75,11 @@ class App :
 		caps = DesiredCapabilities.INTERNETEXPLORER
                 caps['ignoreZoomSetting'] = True
                 return webdriver.Ie( capabilities = caps )
+          if ( 'opera' in name.lower( ) ) :
+                #caps = webdriver.ChromeOptions( )
+                #caps.binary_location = 'C:\Users\echo\AppData\Local\Programs\Opera\launcher.exe' #test
+                #return webdriver.Opera( options=caps )
+                return None #opera nie dziala, do poprawki
  
           return None
 
