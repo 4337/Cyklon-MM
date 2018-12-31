@@ -220,7 +220,8 @@ class Dbg :
                for trg in Dbg.targets :
                    if ( trg != None ) :
                         pid = trg.get_pid( )
-                        if ( psutil.pid_exists( pid ) == True ) :
+                        #t_path = psutil.Process(pid).cmdline()[0]
+                        if (( psutil.pid_exists( pid ) == True ) and ( trg.get_filename( ) == psutil.Process(pid).cmdline()[0] )) :  #work 13/10/18:
                              try : 
                                  Dbg.dbg.detach( pid )
                              finally :
@@ -232,7 +233,12 @@ class Dbg :
                                      except Exception as e :
                                             #print 'Exception in Dbg.__del__() ' + str(e)
                                             pass
+<<<<<<< HEAD
                                  
+=======
+                         #elif ( trg.is_alive( ) ) :  #todo : 13/10/18
+                                 #kill trg 
+>>>>>>> e346747816e71312de957208c34b1b5dc422f899
           
           Dbg.sym_dir = ''
           Dbg.symbols_path = ''
