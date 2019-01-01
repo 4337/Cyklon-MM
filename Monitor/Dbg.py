@@ -109,7 +109,7 @@ class DbgEventHandler( EventHandler ) :
                if ( len( syms ) >  0 ) :
                     diff = datetime.datetime.now() -  datetime.datetime.utcfromtimestamp( os.stat( Dbg.sym_dir + '\\' + syms[0]  ).st_ctime ) 
                     IO.stdout( 'Syms test diff.s = '+str(diff.seconds / 60) + ' sym.r = ' + str(Dbg.sym_reload) ) #test
-                    if ( ( int(diff.seconds / 60) ) <= int(Dbg.sym_reload / 60) ) :  #TODO: chck ! 
+                    if ( ( int(diff.seconds / 60) ) <= int(Dbg.sym_reload) ) :  #TODO: chck ! 
                            get_sym = False
                     else :
                          shutil.rmtree( Dbg.sym_dir ) #clear symbols
