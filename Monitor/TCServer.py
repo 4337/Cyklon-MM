@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import os
+import SocketServer
 
 from BaseHTTPServer import HTTPServer
 
@@ -66,6 +67,8 @@ class TCServer :
            TCServer.TC_FILE = f_name
            TCServer.CMD = cmd
 
+           SocketServer.TCPServer.allow_reuse_address = True
+
       def __del__( self ) :
 
           if ( self.server != None ) :
@@ -77,9 +80,10 @@ class TCServer :
       def listen( self ) :
  
           try : 
-               self.server =  HTTPServer(( self.addr, self.port ), self.__handler )
+               SocketServer.TCPServer.allow_reuse_address = True
+               self.server = HTTPServer(( self.addr, self.port ), self.__handler )
                return True
-          except :
+          except Exception as e:
                   return False
 
       def run( self ) :
