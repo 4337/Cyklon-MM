@@ -238,11 +238,11 @@ class VSystem :
           try : 
               gen_cmd = self.cfg['tc_tec'] + ' ' + self.cwd + self.cfg['tc_generator'] + ' ' + self.cwd + self.cfg['tc_command']
               tc_url = urlparse( self.cfg['tc_url']  ).netloc.split(':')[0]
-              self.server = TCServer( tc_url, self.cfg['server_port'] , self.cwd + self.cfg['server_dir'], self.cfg['tc_file'] )
+              self.server = TCServer( tc_url, self.cfg['server_port'] , self.cwd + self.cfg['server_dir'], self.cfg['tc_file'], gen_cmd )
 
               if ( self.server.listen( ) == True ) :
                    IO.stdout( '(*). TC server listen on addr |' + tc_url + '| port |' + str( self.cfg['server_port'] ) + '| : done !' )
-                   th = threading.Thread( target = self.server.run, args = [gen_cmd] )
+                   th = threading.Thread( target = self.server.run )
                    VSystem.threads.append( th ) 
                    th.start( )
                    return True

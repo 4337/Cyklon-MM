@@ -2,6 +2,7 @@
 
 import os
 import time
+import math
 import winappdbg
 import threading
 import psutil
@@ -108,11 +109,10 @@ class DbgEventHandler( EventHandler ) :
            
                if ( len( syms ) >  0 ) :
                     diff = datetime.datetime.now() -  datetime.datetime.utcfromtimestamp( os.stat( Dbg.sym_dir + '\\' + syms[0]  ).st_ctime ) 
-                    IO.stdout( 'Syms test diff.s = '+str(diff.seconds / 60) + ' sym.r = ' + str(Dbg.sym_reload) ) #test
-                    if ( ( int(diff.seconds) / 60 ) <= int(Dbg.sym_reload / 60)  ) :  #TODO: chck ! 
+                    if ( ( math.ceil(diff.seconds) / 60 ) <= ( math.ceil(Dbg.sym_reload) / 60 )  ) : 
                            get_sym = False
                     else :
-                         shutil.rmtree( Dbg.sym_dir ) #clear symbols
+                         shutil.rmtree( Dbg.sym_dir ) 
                   
                if ( get_sym == True ) :  
 
@@ -120,7 +120,7 @@ class DbgEventHandler( EventHandler ) :
                     IO.stdout( '     Exception occured | download symbols ! |' )
                     winappdbg.Color.default( )
                     try :
-                        if ( len( Proc.get_symbols( ) ) <= 0 ) :  #FIX !!!!!!!!!!!!!!!!!!!!
+                        if ( len( Proc.get_symbols( ) ) <= 0 ) :  
                              IO.stdout( '(*). Dbg symbols loading error !' )
                     except Exception as e :
                                           print IO.stdout( '(!). Dbg symbols loading exception : ' + str(e) + ' !' )
@@ -212,7 +212,9 @@ class Dbg :
                if ( os.path.isfile( dbg_help ) == True ) :
                     Dbg.dbg.system.load_dbghelp( dbg_help  ) 
                else :
+                    winappdbg.Color.red( )
                     IO.stdout( '(!). Dbg dbghelp.dll not exisit ' + str(dbg_help) + ' !' )
+                    winappdbg.Color.default( )
 
       def __del__( self ) :
 
