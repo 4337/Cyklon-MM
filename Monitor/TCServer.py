@@ -20,6 +20,10 @@ class TCServer :
 
       class __handler( BaseHTTPRequestHandler ) : 
          
+         def handle_error( self, request, client_address ) :
+
+             IO.stdout('[!]. TCServer connection reset by peer!')
+
          def __sh( self ) :
              
              self.send_response( 200 )
