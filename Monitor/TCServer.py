@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
 import os
-import time
 
 from BaseHTTPServer import HTTPServer
 
 from BaseHTTPServer import BaseHTTPRequestHandler
 
 from IO import *
-from time import localtime, strftime
 from VSystem import *
 from VEvent import *
 
@@ -22,7 +20,7 @@ class TCServer :
          
          def handle_error( self, request, client_address ) :
 
-             IO.stdout('[!]. TCServer connection reset by peer!')
+             IO.stdout('[!]. TCServer.handle_error() error !')
 
          def __sh( self ) :
              
