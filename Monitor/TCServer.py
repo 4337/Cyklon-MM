@@ -41,7 +41,7 @@ class TCServer :
              return test_case        
 
          def do_GET( self ) :
-             try : 
+             try :
                   self.__sh( )
                   tc = self.__handle( )
                   self.wfile.write( tc )
@@ -73,7 +73,7 @@ class TCServer :
           if ( self.server != None ) :
 
                self.server.shutdown( )
-               self.server = None
+               #self.server = None
                
 
       def listen( self ) :
@@ -86,10 +86,11 @@ class TCServer :
 
       def run( self ) :
 
-              try : 
-                   self.server.serve_forever( ) #todo : add wathdog event mon
+              try :
+                   while ( VEvent.reboot.is_set( ) == False ) :
+                           self.server.handle_request( ) #.serve_forever( ) 
                    return True
-              except :
+              except Exception as e:
                      return False
 
  
