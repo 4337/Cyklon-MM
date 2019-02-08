@@ -67,7 +67,6 @@ class TCServer :
            TCServer.TC_FILE = f_name
            TCServer.CMD = cmd
 
-           SocketServer.TCPServer.allow_reuse_address = True
 
       def __del__( self ) :
 
