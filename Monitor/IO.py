@@ -36,7 +36,7 @@ class IO :
           try : 
               IO.io_lock.acquire( True )
               IO.file_handle[file_path] = open( file_path, mode ) #0 -> 'key'
-              ++IO.cnt
+              IO.cnt = IO.cnt + 1
           except Exception as e :
                  ret = False
           finally :
@@ -67,7 +67,7 @@ class IO :
               else :   
                    IO.file_handle[IO.file_handle.keys()[IO.cnt - 1]].close( )
                    IO.file_handle.pop( IO.file_handle.keys()[IO.cnt - 1] )
-              --IO.cnt
+              IO.cnt = IO.cnt - 1
           finally :
                   IO.io_lock.release( )
 
