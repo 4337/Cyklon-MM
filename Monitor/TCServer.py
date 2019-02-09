@@ -1,107 +1,101 @@
 # -*- coding: utf-8 -*-
 
+import socket
 import os
-import SocketServer
-
-from time import localtime, strftime
+import time
+import threading
 
 from IO import *
+from time import localtime, strftime
 from VSystem import *
 from VEvent import *
 
-class TCServer :
-
+class TCServer : #@@ TODO: change to nonblocking 
+ 
       CMD = ''
-      DOCUMENT_ROOT = '' 
-      TC_FILE = ''
       REQUEST_COUNT = 0
 
-      HEADERS = ( "HTTP/1.1 200 OK\r\n"
+      Headers = ( "HTTP/1.1 200 OK\r\n"
                   "Server: Apache\r\n"
                   "Content-Type: text/html; charset=utf-8\r\n"
                   "Cache-Control: no-cache, no-store, must-revalidate\r\n"
                   "Connection: Close\r\n" )
+                             
+      def __set_date( self ) :
 
-      class __handler( SocketServer.BaseRequestHandler ) : 
+          data_time = strftime( "%a, %d %b %Y %H:%M:%S", localtime( ) )
+          return "Date: " + str( data_time ) + "\r\n"
 
-      
-         def __set_date( self ) :
+      def __set_content_length( self, length ) :
 
-             data_time = strftime( "%a, %d %b %Y %H:%M:%S", localtime( ) )
-             return "Date: " + str( data_time ) + "\r\n"
+          return "Content-Length: " + str( length ) + "\r\n"
 
-         def __set_content_length( self, length ) :
+      def __init__( self, bind_addr, bind_port, document_root, f_name, tc_generator_cmd ) :
 
-             return "Content-Length: " + str( length ) + "\r\n"
-
-         def handle( self ) :
-     
-             TCServer.REQUEST_COUNT = TCServer.REQUEST_COUNT + 1;
-             self.request.recv( 1024 )
-             tc = self.__handle( )
-             rsp = ( TCServer.HEADERS + self.__set_date( ) + 
-                     self.__set_content_length( len( tc ) ) + "\r\n" + 
-                     tc )
-             self.request.sendall( rsp )
-         
-         def handle_error( self, request, client_address ) :
-
-             IO.stdout('[!]. TCServer.handle_error() error !')
-             return
-
-         def __handle( self ) :
-
-             os.popen( TCServer.CMD ).read( ) 
-
-             f = open( TCServer.DOCUMENT_ROOT + '\\' + TCServer.TC_FILE )
-             test_case = f.read( )
-             f.close( )
-
-             return test_case        
-
-         def log_message(self, format, *args) : 
-             return
-
-      def __init__( self, bind_addr, bind_port, document_root, f_name, cmd ) :
-
-           self.server = None
-           self.addr = bind_addr
-           self.port = int( bind_port )
-           TCServer.DOCUMENT_ROOT = document_root 
-           TCServer.TC_FILE = f_name
-           TCServer.CMD = cmd
-           TCServer.REQUEST_COUNT = 0
-
+          self.remote_addr = None
+          self.addr = bind_addr
+          self.port = bind_port
+          self.server_socket = None
+          self.connect_socket = None 
+          self.document_root = document_root 
+          self.tc_file = f_name
+          TCServer.CMD = tc_generator_cmd 
+          TCServer.REQUEST_COUNT = 0
 
       def __del__( self ) :
 
-          if ( self.server != None ) :
+          if ( self.connect_socket != None ) :
                try :
-                    self.server.shutdown( )
-               except :
-                      pass
-               self.server.server_close( )
-               TCServer.REQUEST_COUNT = 0
-               #self.server = None
-               
+                   self.connect_socket.shutdown( socket.SHUT_RDWR )
+               finally :
+                       self.connect_socket.close( )
+          
+          if ( self.server_socket != None ) :
+               self.server_socket.close( )
 
-      def listen( self ) :
- 
-          try : 
-               SocketServer.TCPServer.allow_reuse_address = True
-               self.server = SocketServer.TCPServer(( self.addr, self.port ), self.__handler )
-               return True
+
+      def listen( self ) :   
+
+          try :
+              addr = ( self.addr, int( self.port ) )
+              self.server_socket = socket.socket( socket.AF_INET, socket.SOCK_STREAM )
+             # self.server_socket.settimeout( 5 )
+              self.server_socket.setsockopt( socket.SOL_SOCKET, socket.SO_REUSEADDR, 1 )
+              self.server_socket.bind( addr )
+              self.server_socket.listen( 1024 )
+              return True
           except Exception as e:
-                  return False
+                 IO.stdout( 'Socket.listen error ' + str(e) )
+                 return False
 
-      def run( self ) :
+      def run( self ) : 
 
-              try :
-                   while ( VEvent.reboot.is_set( ) == False ) :
-                           self.server.handle_request( ) #.serve_forever( ) 
-                   return True
-              except Exception as e:
-                     return False
+          try :
+              IO.stdout( '(*). TC Server->Run() : done !' )
+              while ( VEvent.reboot.is_set( ) == False ) :
+        
+                      try :
+                          TCServer.REQUEST_COUNT = TCServer.REQUEST_COUNT + 1
+                          ( self.connect_socket, self.remote_addr ) = self.server_socket.accept( )  
+                          self.connect_socket.recv( 4096 )
+                          os.popen( TCServer.CMD ).read( )  #fix : white space in command 
+                          f_name = self.document_root + '\\' + self.tc_file
+                          f = open( f_name )
+                          test_case = f.read( )
+                          f.close( )
+                          response = ( self.Headers + self.__set_date( ) + 
+                                       self.__set_content_length( len( test_case ) ) + "\r\n" + 
+                                       test_case )
+                          self.connect_socket.sendall( response )
+                          self.connect_socket.shutdown( socket.SHUT_RDWR )
+                          self.connect_socket.close( ) 
+                          self.connect_socket = None
+                      except Except as e:  
+                             IO.stdout( ' except in socket ' + str(e) )
+                             self.connect_socket.shutdown( socket.SHUT_RDWR )
+                             self.connect_socket.close( )
+                             self.connect_socket = None
 
- 
-
+              return True
+          except :
+                 return False
