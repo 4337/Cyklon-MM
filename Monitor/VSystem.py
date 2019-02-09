@@ -254,6 +254,7 @@ class VSystem :
       def stop_tc_server( self, silent = False ) :
     
           if ( silent == False ) :
+               IO.stdout( '(*). TC Server handle ' + str(TCServer.REQUEST_COUNT) + ' requests.' )
                IO.stdout( '(*). TC Server stop' )
 
           if ( VEvent.reboot.is_set( ) == False ) :
