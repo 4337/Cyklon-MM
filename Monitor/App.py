@@ -38,6 +38,7 @@ class App :
           if ( self.browser != None ) :
                try :
                    self.browser.quit( )
+                   shutil.rmtree( tempfile.gettempdir() ,ignore_errors  = True )
                    del self.browser
                except :
                       pass 
