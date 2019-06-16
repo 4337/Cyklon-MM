@@ -101,6 +101,7 @@ class DbgEventHandler( EventHandler ) :
           if ( ( str(exc_code) in DbgEventHandler.crash_course ) and ( event.is_first_chance( ) == True ) ) :  
 
                VEvent.no_freeze.clear( )
+               IO.__lock__( )
 
                get_sym = True
 
@@ -164,6 +165,7 @@ class DbgEventHandler( EventHandler ) :
                winappdbg.Color.default( )
 
                VEvent.no_freeze.set( )
+               IO.__unlock__( )
           
           if ( event.is_noncontinuable( ) == True ) :  #wyjatek nie kontynowalny - reboot
 

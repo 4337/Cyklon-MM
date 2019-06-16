@@ -1,7 +1,13 @@
+if exist .lock (
+   goto __skip__
+)
+
 powershell -executionpolicy bypass -File C:\Users\echo\Desktop\Cyklon-31.08.2018\at_kill.ps1 
 del /Q /S %temp%\* 
 rmdir /Q /S %temp%\*
 start "C:\Python27amd64\python.exe" "C:\Users\echo\Desktop\Cyklon-31.08.2018\Main.py" -browser "C:\Program Files\Mozilla Firefox\firefox.exe" -port 80 -symbols http://msdl.microsoft.com/download/symbols;https://symbols.mozilla.org/
+
+:__skip__
 
 REM "C:\Program Files\internet explorer\iexplore.exe"
 

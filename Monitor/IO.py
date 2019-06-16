@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import threading 
 
 class IO :
@@ -80,3 +81,15 @@ class IO :
           finally :
                   IO.io_lock.release( )
                   return msg + "\r\n"
+
+      @staticmethod
+      def __lock__() :
+
+          hnd = open('.lock')
+          hnd.write('lockme')
+          hnd.close()
+
+      @staticmethod
+      def __unlock__() :
+          
+          os.remove('.lock')
