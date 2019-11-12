@@ -86,7 +86,7 @@ class IO :
       def __lock__() :
 
           try :
-               hnd = open('.lock','w')
+               hnd = open('.lock','w+')
                hnd.write('lockme')
                hnd.close()
           except :
