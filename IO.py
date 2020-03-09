@@ -95,4 +95,4 @@ class IO :
       @staticmethod
       def __unlock__() :
           
-          os.remove('.lock')
+          os.remove( os.path.dirname(sys.argv[0]) + '\\.lock' )
