@@ -86,7 +86,7 @@ class IO :
       def __lock__() :
 
           try :
-               hnd = open( os.path.dirnameh(sys.argv[0]) + '\\.lock','w' )
+               hnd = open( os.path.dirname(sys.argv[0]) + '\\.lock','w' )
                hnd.write('lockme')
                hnd.close()
           except :
