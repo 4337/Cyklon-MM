@@ -26,7 +26,7 @@ def chck_arg_is_url( url ) :
 	
 def parse_command_line( ) : 
     
-    CmdLineParser = argparse.ArgumentParser( description = 'Use RunDbg.py -browser X:\path\2\browser.exe -arch x86|x64' )
+    CmdLineParser = argparse.ArgumentParser( description = 'Use RunDbg.py -browser X:\path\2\browser.exe' )
 	
     RequiredArgs = CmdLineParser.add_argument_group('required arguments')
     RequiredArgs.add_argument( '-browser', help = 'Use -browser [path to web browser', type = str, required = True )
