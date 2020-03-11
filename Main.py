@@ -76,10 +76,13 @@ def main( ) :
            print "[!]. Global exception : " + str( e )
 
     finally :
-            VSys.dbg_stop( True )
-            VSys.stop_tc_server( True )
-            VSys.stop_app( True )
-            del VSys
+            try :
+                VSys.dbg_stop( True )
+                VSys.stop_tc_server( True )
+                VSys.stop_app( True )
+                del VSys
+            except Exception as e1 :
+                   pass
             return
 
 if ( __name__ == "__main__" ) :

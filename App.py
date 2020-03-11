@@ -49,8 +49,8 @@ class App :
           name = app.split( '.' )[0]
 
           if ( 'firefox' in name.lower( ) ) : 
-                # return webdriver.Firefox( firefox_binary = FirefoxBinary("C:\\Program Files\\Mozilla Firefox\\firefox.exe") )
-                return None
+                return webdriver.Firefox( firefox_binary = FirefoxBinary("C:\\Program Files\\Mozilla Firefox\\firefox.exe") )
+                #return None
           if ( 'edge' in name.lower( ) ) :  #MicrosoftEdge.exe
                 self.additional_apps.extend( ['browser_broker.exe','RuntimeBroker.exe','ApplicationFrameHost.exe','MicrosoftEdgeCP.exe','MicrosoftEdgeSH.exe'] )
                 caps = DesiredCapabilities.EDGE
