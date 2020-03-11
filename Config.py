@@ -14,6 +14,9 @@ def parse_config_file( cfg_path ) :
     RetVal = { }
     RetVal['dbghelp'] = ''
     RetVal['tc_tec'] = ''
+    #RetVal['jit_dbg'] = 0
+    #RetVal['jit_dbg_procs'] = ''
+    
     Parser = SafeConfigParser( )
 	
     if ( len( Parser.read( cfg_path ) ) > 0) : 
