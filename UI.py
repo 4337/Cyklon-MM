@@ -34,6 +34,7 @@ def parse_command_line( ) :
     CmdLineParser.add_argument( '-symbols', help = '(Optional) Use -symbols URIToDbgSymbolServer', type = chck_arg_is_url )
     CmdLineParser.add_argument( '-reboot', help = '(Optional) Use -reboot (minutes) for reboot after N minutes', type = int )
     CmdLineParser.add_argument( '-port', help = '(Optional) Use -port (1-65535) for testcase server port', type = chck_arg_port_range ) 
+    CmdLineParser.add_argument( '-jit', help = '(Optional) Use -jit (path 2 processes that you want debug postmortem) eg. C:\App1.exe;D:\App2.exe', type = str )
 	
     Args = CmdLineParser.parse_args()	
 	
