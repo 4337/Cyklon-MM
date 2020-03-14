@@ -14,8 +14,8 @@ def parse_config_file( cfg_path ) :
     RetVal = { }
     RetVal['dbghelp'] = ''
     RetVal['tc_tec'] = ''
-    #RetVal['jit_dbg'] = 0
-    #RetVal['jit_dbg_procs'] = ''
+    RetVal['jit_dbg'] = "0"
+    RetVal['jit_dbg_procs'] = None
     
     Parser = SafeConfigParser( )
 	
@@ -28,6 +28,17 @@ def parse_config_file( cfg_path ) :
                 RetVal['tc_tec'] = Parser.get( 'Fuzzer', 'tec' )
             except :
                    pass
+            try :
+                RetVal['jit_dbg'] = Parser.get( 'JIT_Debugger','jit_dbg' )
+                if (  RetVal['jit_dbg'] != None ) :
+                	  if ( int(RetVal['jit_dbg']) != 0 ) :
+                           RetVal['jit_dbg_procs'] = Parser.get('JIT_Debugger', 'jit_dbg_procs' )
+            except :
+            	   pass
+            finally :
+                    if ( RetVal['jit_dbg_procs'] == None ) :
+                         RetVal['jit_dbg'] = "0"
+
 	    try : 
 		      
 	        RetVal['reboot_time'] = Parser.get( 'Time', 'reboot' )

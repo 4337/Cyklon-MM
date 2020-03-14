@@ -375,7 +375,10 @@ class VSystem :
                         return False
 
           self.cfg = cfg
-          
+     
+          if ( self.cmd_line.jit != None ) :
+               self.cfg['jit_dbg'] = "1"
+               self.cfg['jit_dbg_procs'] = self.cmd_line.jit
           if ( self.cmd_line.port != None ) :
                self.cfg['server_port'] = int( self.cmd_line.port )
           if ( self.cmd_line.reboot != None ) :

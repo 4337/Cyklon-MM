@@ -59,4 +59,14 @@ def show_banner( opts ) :
             "[+]. Symbols uri : " + str(opts['dbg_symbols_url']) + "\r\n"
             "[+]. Repro dir : /" + opts['repos_dir'] + "/\r\n"
             "[+]. Application : " + opts['app_path'] + "\r\n"
-            "[+]. TC url : " + opts['tc_url'] + "\r\n" )
+            "[+]. TC url : " + opts['tc_url'] + "\r\n"
+            "[+]. JIT debug : " + str(opts['jit_dbg'])  )
+
+    if ( int( opts['jit_dbg'] ) == 1 ) :
+        jits = str( opts['jit_dbg_procs'] ).split(';')
+        for jit in jits :
+            if ( os.path.exists(jit) ) :
+                 print "[+]. JITDbg proc : "+str(jit)
+            else :
+                 print "[-]. JITDbg proc error : (File not exists) "
+                 raise Exception('Invalid JIT process path')
